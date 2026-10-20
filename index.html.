@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лёгкая корзинка</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#fff1f5">
+    <style>
+        :root { 
+            --bg: #fff7fa; 
+            --card: #ffffff; 
+            --accent: #d81b60; 
+            --text: #4a4a4a; 
+        }
+        
+        /* Темы */
+        body.theme-rose { --bg: #fff7fa; --accent: #d81b60; }
+        body.theme-grape { --bg: #f8f5ff; --accent: #7b1fa2; }
+        body.theme-peach { --bg: #fff5ed; --accent: #e65100; }
+
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { margin: 0; background: var(--bg); color: var(--text); padding-bottom: 70px; transition: background 0.3s; }
+        
+        header { padding: 20px; text-align: center; }
+        h1 { font-size: 24px; margin: 0; color: var(--accent); }
+        h2 { font-size: 18px; margin-top: 0; color: var(--accent); }
+        
+        .page { display: none; padding: 15px; }
+        .page.active { display: block; }
+        
+        .card { background: var(--card); border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        
+        button { background: var(--accent); color: white; border: none; padding: 12px; border-radius: 10px; font-size: 15px; cursor: pointer; width: 100%; font-weight: bold; margin-bottom: 8px;}
+        button.secondary { background: #fce4ec; color: var(--accent); }
+        
+        /* Кнопки тем */
+        .theme-buttons { display: flex; gap: 10px; justify-content: center; margin-top: 10px; }
+        .theme-buttons button { width: auto; font-size: 24px; padding: 10px 15px; background: white; border: 2px solid #ddd; border-radius: 50%; margin: 0;}
+        .theme-buttons button.active { border-color: var(--accent); background: var(--bg); }
+
+        nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); }
+        nav button { background: none; color: #888; width: auto; padding: 5px; font-size: 12px; margin: 0; }
+        nav button.active { color: var(--accent); font-weight: bold; }
+
+        input, textarea, select { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; }
+    </style>
+</head>
+<body class="theme-rose">
+
+    <header>
+        <h1>🧺 Лёгкая корзинка</h1>
+        <p style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.7;">Планируем вкусно, покупаем разумно ♡</p>
+    </header>
+
+    <main>
+        <!-- Главная -->
+        <section id="home" class="page active">
+            <div class="card">
+                <h2>Привет, хозяюшка!</h2>
+                <p>Твой уютный кулинарный помощник.</p>
+                <button onclick="alert('Кнопки скоро заработают!')">🎲 Удиви меня!</button>
+            </div>
+            
+            <div class="card">
+                <h2>➕ Добавить рецепт</h2>
+                <form id="addRecipeForm" onsubmit="saveRecipe(event)">
+                    <input type="text" id="recipeName" placeholder="Название блюда" required>
+                    <textarea id="recipeIngredients" placeholder="Ингредиенты (через запятую)" style="height: 60px;"></textarea>
+                    <textarea id="recipeSteps" placeholder="Пошаговый рецепт" style="height: 80px;"></textarea>
+                    <select id="recipeTech">
+                        <option value="плита">🌸 Плита</option>
+                        <option value="аэрогриль">🌺 Аэрогриль</option>
+                        <option value="чайник">🌸 Электрочайник</option>
+                        <option value="миксер">🌺 Миксер</option>
+                        <option value="блендер">🌸 Блендер</option>
+                    </select>
+                    <button type="submit" class="secondary">Сохранить рецепт</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Меню -->
+        <section id="menu" class="page">
+            <div class="card">
+                <h2>🍓 Меню на неделю</h2>
+                <p>Планируй приемы пищи.</p>
+            </div>
+        </section>
+
+        <!-- Покупки -->
+        <section id="shopping" class="page">
+            <div class="card">
+                <h2>🛒 Покупки</h2>
+                <p>Список того, что нужно купить.</p>
+            </div>
+        </section>
+
+        <!-- Кладовая -->
+        <section id="pantry" class="page">
+            <div class="card">
+                <h2>🥫 Кладовая</h2>
+                <p>Что уже есть дома.</p>
+            </div>
+        </section>
+
+        <!-- Настройки -->
+        <section id="settings" class="page">
+            <div class="card">
+                <h2>⚙️ Настройки</h2>
+                <p>Выбери тему оформления:</p>
+                <div class="theme-buttons">
+                    <button class="active" onclick="setTheme('rose', this)">🌸</button>
+                    <button onclick="setTheme('grape', this)">🍇</button>
+                    <button onclick="setTheme('peach', this)">🍑</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <nav>
+        <button onclick="showPage('home', this)" class="active">🏠 Главная</button>
+        <button onclick="showPage('menu', this)">🍓 Меню</button>
+        <button onclick="showPage('shopping', this)">🛒 Покупки</button>
+        <button onclick="showPage('pantry', this)">🥫 Кладовая</button>
+        <button onclick="showPage('settings', this)">⚙️ Настройки</button>
+    </nav>
+
+    <script>
+        // --- Навигация ---
+        function showPage(pageId, btn) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            
+            if (btn) {
+                document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+        }
+
+        // --- Смена тем ---
+        function setTheme(themeName, btn) {
+            document.body.className = 'theme-' + themeName;
+            document.querySelectorAll('.theme-buttons button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            localStorage.setItem('appTheme', themeName);
+        }
+
+        // Загрузка темы при запуске
+        if (localStorage.getItem('appTheme')) {
+            document.body.className = 'theme-' + localStorage.getItem('appTheme');
+        }
+
+        // --- Сохранение рецепта ---
+        function saveRecipe(event) {
+            event.preventDefault();
+            const name = document.getElementById('recipeName').value;
+            const ingredients = document.getElementById('recipeIngredients').value;
+            const steps = document.getElementById('recipeSteps').value;
+            const tech = document.getElementById('recipeTech').value;
+
+            const newRecipe = { name, ingredients, steps, tech };
+            
+            // Получаем текущий список или создаем новый
+            let recipes = JSON.parse(localStorage.getItem('myRecipes')) || [];
+            recipes.push(newRecipe);
+            localStorage.setItem('myRecipes', JSON.stringify(recipes));
+            
+            alert("Рецепт '" + name + "' сохранен!");
+            document.getElementById('addRecipeForm').reset();
+        }
+    </script>
+</body>
+</html>
