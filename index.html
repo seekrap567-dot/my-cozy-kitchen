@@ -8,31 +8,50 @@
     <meta name="theme-color" content="#fff1f5">
     <style>
         :root { 
-            --bg: #fff7fa; 
-            --card: #ffffff; 
-            --accent: #d81b60; 
-            --text: #4a4a4a; 
-        }
-        
-        /* Темы */
-        body.theme-rose { --bg: #fff7fa; --accent: #d81b60; }
-        body.theme-grape { --bg: #f8f5ff; --accent: #7b1fa2; }
-        body.theme-peach { --bg: #fff5ed; --accent: #e65100; }
+    --bg: #fff0f5; /* Очень нежный розовый фон */
+    --card: #ffffff; 
+    --accent: #f48fb1; /* Пастельный розовый */
+    --text: #5d4037; /* Мягкий коричневый цвет текста (вместо черного) */
+    --shadow: 0 8px 16px rgba(244, 143, 177, 0.15);
+}
 
-        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
-        body { margin: 0; background: var(--bg); color: var(--text); padding-bottom: 70px; transition: background 0.3s; }
+* { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+
+body { 
+    margin: 0; 
+    background: linear-gradient(135deg, #fff0f5 0%, #fce4ec 100%); 
+    color: var(--text); 
+    padding-bottom: 85px; 
+    transition: background 0.3s;
+    min-height: 100vh;
+}
+
+.card { 
+    background: var(--card); 
+    border-radius: 20px; 
+    padding: 20px; 
+    margin-bottom: 20px; 
+    box-shadow: var(--shadow); 
+    border: 1px solid rgba(244, 143, 177, 0.2); 
+}
+
+button { 
+    background: var(--accent); 
+    color: white; 
+    border: none; 
+    padding: 14px; 
+    border-radius: 12px; 
+    font-size: 16px; 
+    cursor: pointer; 
+    width: 100%; 
+    font-weight: bold; 
+    margin-bottom: 10px; 
+    box-shadow: 0 4px 10px rgba(244, 143, 177, 0.3);
+    transition: transform 0.1s;
+}
+
+button:active { transform: scale(0.98); }
         
-        header { padding: 20px; text-align: center; }
-        h1 { font-size: 24px; margin: 0; color: var(--accent); }
-        h2 { font-size: 18px; margin-top: 0; color: var(--accent); }
-        
-        .page { display: none; padding: 15px; }
-        .page.active { display: block; }
-        
-        .card { background: var(--card); border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        
-        button { background: var(--accent); color: white; border: none; padding: 12px; border-radius: 10px; font-size: 15px; cursor: pointer; width: 100%; font-weight: bold; margin-bottom: 8px;}
-        button.secondary { background: #fce4ec; color: var(--accent); }
         
         /* Кнопки тем */
         .theme-buttons { display: flex; gap: 10px; justify-content: center; margin-top: 10px; }
@@ -57,10 +76,10 @@
         <!-- Главная -->
         <section id="home" class="page active">
             <div class="card">
-                <h2>Привет, хозяюшка!</h2>
-                <p>Твой уютный кулинарный помощник.</p>
-                <button onclick="alert('Кнопки скоро заработают!')">🎲 Удиви меня!</button>
-            </div>
+    <h2>Привет, хозяюшка! 🎀</h2>
+    <p style="font-size: 15px; line-height: 1.5;">Твой уютный кулинарный помощник.<br>Пусть готовка приносит только радость! ✨</p>
+    <button onclick="alert('Кнопки скоро заработают!')">🎲 Удиви меня!</button>
+</div>
             
             <div class="card">
                 <h2>➕ Добавить рецепт</h2>
@@ -169,6 +188,19 @@
             alert("Рецепт '" + name + "' сохранен!");
             document.getElementById('addRecipeForm').reset();
         }
-    </script>
+        } // конец функции saveRecipe
+
+    // --- Милые фразы дня ---
+    const nicePhrases = [
+        "Пусть готовка приносит только радость! ✨",
+        "Ты — лучшая хозяйка на свете! 🌸",
+        "Сегодня отличный день для нового рецепта! 🍰",
+        "Вкусная еда — это маленькое счастье. 🥰",
+        "Не бойся экспериментировать на кухне! 🧁",
+        "Твой дом пахнет уютом и любовью. 💖"
+    ];
+
+    document.querySelector('#home .card p').innerHTML = nicePhrases[Math.floor(Math.random() * nicePhrases.length)];
+</script>            
 </body>
 </html>
