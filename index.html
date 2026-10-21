@@ -140,17 +140,6 @@
                 <div id="shopList" style="margin-top: 15px;"></div>
             </div>
         </section>
-
-        <section id="pantry" class="page">
-            <div class="card">
-                <h2>🥫 Кладовая</h2>
-                <p style="font-size: 14px; color: #888;">Что есть дома:</p>
-                <input type="text" id="pantryInput" placeholder="Например: Картошка">
-                <button class="secondary" onclick="addPantryItem()">Добавить</button>
-                <div id="pantryList" style="margin-top: 15px;"></div>
-            </div>
-        </section>
-
         <section id="settings" class="page">
             <div class="card">
                 <h2>⚙️ Настройки</h2>
@@ -168,7 +157,6 @@
         <button onclick="showPage('home', this)" class="active">🏠<span>Главная</span></button>
         <button onclick="showPage('recipes', this)">📖<span>Рецепты</span></button>
         <button onclick="showPage('shopping', this)">🛒<span>Покупки</span></button>
-        <button onclick="showPage('pantry', this)">🥫<span>Кладовая</span></button>
         <button onclick="showPage('settings', this)">⚙️<span>Настройки</span></button>
     </nav>
 
@@ -313,50 +301,9 @@
             localStorage.setItem('myShopping', JSON.stringify(items));
             renderShopping();
         }
-
-        // --- Кладовая ---
-        function addPantryItem() {
-            const input = document.getElementById('pantryInput');
-            if (!input.value.trim()) return;
-            let items = JSON.parse(localStorage.getItem('myPantry')) || [];
-            items.push({ text: input.value.trim() });
-            localStorage.setItem('myPantry', JSON.stringify(items));
-            input.value = '';
-            renderPantry();
-        }
-
-        function renderPantry() {
-            const list = document.getElementById('pantryList');
-            let items = JSON.parse(localStorage.getItem('myPantry')) || [];
-            if (items.length === 0) { list.innerHTML = ''; return; }
-
-            list.innerHTML = '';
-            items.forEach((item, index) => {
-                const div = document.createElement('div');
-                div.style.display = 'flex';
-                div.style.justifyContent = 'space-between';
-                div.style.alignItems = 'center';
-                div.style.padding = '10px 0';
-                div.style.borderBottom = '1px solid #fce4ec';
-                div.innerHTML = `
-                    <span style="font-size: 16px;">🥫 ${item.text}</span>
-                    <button onclick="deletePantryItem(${index})" style="width: auto; background: none; color: #ff5252; padding: 5px; box-shadow: none; font-size: 20px; margin: 0;">✕</button>
-                `;
-                list.appendChild(div);
-            });
-        }
-
-        function deletePantryItem(index) {
-            let items = JSON.parse(localStorage.getItem('myPantry')) || [];
-            items.splice(index, 1);
-            localStorage.setItem('myPantry', JSON.stringify(items));
-            renderPantry();
-        }
-
         // Запуск при загрузке
         renderRecipes();
         renderShopping();
-        renderPantry();
     </script>
 </body>
 </html>
