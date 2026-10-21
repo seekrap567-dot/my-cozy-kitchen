@@ -3,83 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Лёгкая корзинка</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#fff1f5">
+    <title>Уютная кухня</title>
+    
+    <!-- Красивые шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style>
         :root { 
-    --bg: #fff0f5; /* Очень нежный розовый фон */
-    --card: #ffffff; 
-    --accent: #f48fb1; /* Пастельный розовый */
-    --text: #5d4037; /* Мягкий коричневый цвет текста (вместо черного) */
-    --shadow: 0 8px 16px rgba(244, 143, 177, 0.15);
-}
-
-* { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
-
-body { 
-    margin: 0; 
-    background: linear-gradient(135deg, #fff0f5 0%, #fce4ec 100%); 
-    color: var(--text); 
-    padding-bottom: 85px; 
-    transition: background 0.3s;
-    min-height: 100vh;
-}
-
-.card { 
-    background: var(--card); 
-    border-radius: 20px; 
-    padding: 20px; 
-    margin-bottom: 20px; 
-    box-shadow: var(--shadow); 
-    border: 1px solid rgba(244, 143, 177, 0.2); 
-}
-
-button { 
-    background: var(--accent); 
-    color: white; 
-    border: none; 
-    padding: 14px; 
-    border-radius: 12px; 
-    font-size: 16px; 
-    cursor: pointer; 
-    width: 100%; 
-    font-weight: bold; 
-    margin-bottom: 10px; 
-    box-shadow: 0 4px 10px rgba(244, 143, 177, 0.3);
-    transition: transform 0.1s;
-}
-
-button:active { transform: scale(0.98); }
+            --bg: #fff0f5; 
+            --card: #ffffff; 
+            --accent: #f48fb1; 
+            --text: #5d4037; 
+            --shadow: 0 8px 20px rgba(244, 143, 177, 0.15);
+        }
         
+        body.theme-rose { --bg: #fff0f5; --accent: #f48fb1; }
+        body.theme-grape { --bg: #f8f5ff; --accent: #ba68c8; }
+        body.theme-peach { --bg: #fff5ed; --accent: #ffb74d; }
+
+        * { box-sizing: border-box; }
+        body { 
+            margin: 0; 
+            background: linear-gradient(135deg, var(--bg) 0%, #ffffff 100%);
+            color: var(--text); 
+            font-family: 'Nunito', sans-serif;
+            padding-bottom: 90px; 
+            transition: background 0.4s ease, color 0.4s ease;
+            min-height: 100vh;
+        }
         
-        /* Кнопки тем */
-        .theme-buttons { display: flex; gap: 10px; justify-content: center; margin-top: 10px; }
-        .theme-buttons button { width: auto; font-size: 24px; padding: 10px 15px; background: white; border: 2px solid #ddd; border-radius: 50%; margin: 0;}
+        /* Заставка */
+        #splash-screen {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #fce4ec; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 9999; transition: opacity 1s ease-out;
+        }
+        #splash-screen h1 { font-family: 'Caveat', cursive; color: #d81b60; font-size: 42px; margin: 0 0 10px 0; }
+        #splash-screen p { font-family: 'Caveat', cursive; color: #d81b60; font-size: 32px; margin: 0; }
+        .splash-hidden { opacity: 0; pointer-events: none; }
+
+        header { padding: 20px; text-align: center; }
+        h1 { font-family: 'Caveat', cursive; font-size: 38px; margin: 0; color: var(--accent); }
+        h2 { font-family: 'Caveat', cursive; font-size: 28px; margin-top: 0; color: var(--accent); }
+        
+        .page { display: none; padding: 15px; max-width: 600px; margin: 0 auto; animation: fadeIn 0.4s ease-in-out; }
+        .page.active { display: block; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .card { 
+            background: var(--card); border-radius: 24px; padding: 20px; margin-bottom: 20px; 
+            box-shadow: var(--shadow); border: 1px solid rgba(255,255,255,0.8); 
+        }
+        
+        button { 
+            background: var(--accent); color: white; border: none; padding: 14px; border-radius: 14px; 
+            font-family: 'Caveat', cursive; font-size: 24px; cursor: pointer; width: 100%; font-weight: bold; 
+            margin-bottom: 10px; transition: transform 0.1s, opacity 0.2s; box-shadow: 0 4px 15px rgba(244, 143, 177, 0.4);
+        }
+        button:active { transform: scale(0.96); }
+        button.secondary { background: #fce4ec; color: var(--accent); box-shadow: none; }
+
+        .theme-buttons { display: flex; gap: 15px; justify-content: center; margin-top: 10px; }
+        .theme-buttons button { width: auto; font-size: 30px; padding: 10px 20px; background: white; border: 2px solid #eee; border-radius: 50%; margin: 0; box-shadow: none;}
         .theme-buttons button.active { border-color: var(--accent); background: var(--bg); }
 
-        nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); }
-        nav button { background: none; color: #888; width: auto; padding: 5px; font-size: 12px; margin: 0; }
-        nav button.active { color: var(--accent); font-weight: bold; }
+        nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -4px 20px rgba(0,0,0,0.05); z-index: 100; }
+        nav button { background: none; color: #aaa; width: auto; padding: 5px; font-size: 24px; margin: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; box-shadow: none; }
+        nav button span { font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: bold; }
+        nav button.active { color: var(--accent); }
 
-        input, textarea, select { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; }
+        input, textarea, select { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #eee; border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 15px; background: #fafafa; transition: border 0.3s; }
+        input:focus, textarea:focus, select:focus { border-color: var(--accent); outline: none; background: #fff; }
+        
+        .recipe-item { padding: 15px 0; border-bottom: 2px dashed #fce4ec; }
+        .recipe-item:last-child { border-bottom: none; }
+        .recipe-item strong { font-family: 'Caveat', cursive; font-size: 26px; color: var(--accent); }
+        .recipe-item details { margin: 8px 0; cursor: pointer; }
+        .recipe-item summary { font-weight: bold; color: #888; font-size: 14px; }
     </style>
 </head>
 <body class="theme-rose">
 
+    <div id="splash-screen">
+        <h1>УЮТНАЯ КУХНЯ 🌷</h1>
+        <p>Привет, хозяюшка 💖</p>
+    </div>
+
     <header>
-        <h1>🧺 Лёгкая корзинка</h1>
-        <p style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.7;">Планируем вкусно, покупаем разумно ♡</p>
+        <h1>🧺 Уютная кухня</h1>
     </header>
 
     <main>
-        <!-- Главная -->
         <section id="home" class="page active">
-            <div class="card">
-    <h2>Привет, хозяюшка! 🎀</h2>
-    <p style="font-size: 15px; line-height: 1.5;">Твой уютный кулинарный помощник.<br>Пусть готовка приносит только радость! ✨</p>
-    <button onclick="alert('Кнопки скоро заработают!')">🎲 Удиви меня!</button>
-</div>
+            <div class="card" style="text-align: center;">
+                <h2>Привет, хозяюшка! 🎀</h2>
+                <p id="nicePhrase" style="font-size: 16px; line-height: 1.5; font-style: italic; color: #777;">Загрузка...</p>
+            </div>
             
             <div class="card">
                 <h2>➕ Добавить рецепт</h2>
@@ -88,46 +111,50 @@ button:active { transform: scale(0.98); }
                     <textarea id="recipeIngredients" placeholder="Ингредиенты (через запятую)" style="height: 60px;"></textarea>
                     <textarea id="recipeSteps" placeholder="Пошаговый рецепт" style="height: 80px;"></textarea>
                     <select id="recipeTech">
-                        <option value="плита">🌸 Плита</option>
-                        <option value="аэрогриль">🌺 Аэрогриль</option>
-                        <option value="чайник">🌸 Электрочайник</option>
-                        <option value="миксер">🌺 Миксер</option>
-                        <option value="блендер">🌸 Блендер</option>
+                        <option value="🌸 Плита">🌸 Плита</option>
+                        <option value="🌺 Аэрогриль">🌺 Аэрогриль</option>
+                        <option value="🌸 Электрочайник">🌸 Электрочайник</option>
+                        <option value="🌺 Миксер">🌺 Миксер</option>
+                        <option value="🌸 Блендер">🌸 Блендер</option>
                     </select>
                     <button type="submit" class="secondary">Сохранить рецепт</button>
                 </form>
             </div>
         </section>
 
-        <!-- Меню -->
-        <section id="menu" class="page">
+        <section id="recipes" class="page">
             <div class="card">
-                <h2>🍓 Меню на неделю</h2>
-                <p>Планируй приемы пищи.</p>
+                <h2>📖 Мои рецепты</h2>
+                <div id="recipesList">
+                    <p style="color: #888; font-size: 14px;">Пока рецептов нет.</p>
+                </div>
             </div>
         </section>
 
-        <!-- Покупки -->
         <section id="shopping" class="page">
             <div class="card">
                 <h2>🛒 Покупки</h2>
-                <p>Список того, что нужно купить.</p>
+                <p style="font-size: 14px; color: #888;">Введите продукт:</p>
+                <input type="text" id="shopInput" placeholder="Например: Молоко">
+                <button class="secondary" onclick="addShopItem()">Добавить</button>
+                <div id="shopList" style="margin-top: 15px;"></div>
             </div>
         </section>
 
-        <!-- Кладовая -->
         <section id="pantry" class="page">
             <div class="card">
                 <h2>🥫 Кладовая</h2>
-                <p>Что уже есть дома.</p>
+                <p style="font-size: 14px; color: #888;">Что есть дома:</p>
+                <input type="text" id="pantryInput" placeholder="Например: Картошка">
+                <button class="secondary" onclick="addPantryItem()">Добавить</button>
+                <div id="pantryList" style="margin-top: 15px;"></div>
             </div>
         </section>
 
-        <!-- Настройки -->
         <section id="settings" class="page">
             <div class="card">
                 <h2>⚙️ Настройки</h2>
-                <p>Выбери тему оформления:</p>
+                <p style="font-size: 16px; color: #888; text-align: center;">Выбери тему оформления:</p>
                 <div class="theme-buttons">
                     <button class="active" onclick="setTheme('rose', this)">🌸</button>
                     <button onclick="setTheme('grape', this)">🍇</button>
@@ -138,19 +165,23 @@ button:active { transform: scale(0.98); }
     </main>
 
     <nav>
-        <button onclick="showPage('home', this)" class="active">🏠 Главная</button>
-        <button onclick="showPage('menu', this)">🍓 Меню</button>
-        <button onclick="showPage('shopping', this)">🛒 Покупки</button>
-        <button onclick="showPage('pantry', this)">🥫 Кладовая</button>
-        <button onclick="showPage('settings', this)">⚙️ Настройки</button>
+        <button onclick="showPage('home', this)" class="active">🏠<span>Главная</span></button>
+        <button onclick="showPage('recipes', this)">📖<span>Рецепты</span></button>
+        <button onclick="showPage('shopping', this)">🛒<span>Покупки</span></button>
+        <button onclick="showPage('pantry', this)">🥫<span>Кладовая</span></button>
+        <button onclick="showPage('settings', this)">⚙️<span>Настройки</span></button>
     </nav>
 
     <script>
+        // --- Заставка ---
+        setTimeout(() => {
+            document.getElementById('splash-screen').classList.add('splash-hidden');
+        }, 2000);
+
         // --- Навигация ---
         function showPage(pageId, btn) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
-            
             if (btn) {
                 document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
@@ -165,12 +196,21 @@ button:active { transform: scale(0.98); }
             localStorage.setItem('appTheme', themeName);
         }
 
-        // Загрузка темы при запуске
         if (localStorage.getItem('appTheme')) {
             document.body.className = 'theme-' + localStorage.getItem('appTheme');
         }
 
-        // --- Сохранение рецепта ---
+        // --- Милые фразы ---
+        const nicePhrases = [
+            "Пусть готовка приносит только радость! ✨",
+            "Ты — лучшая хозяйка на свете! 🌸",
+            "Сегодня отличный день для нового рецепта! 🍰",
+            "Вкусная еда — это маленькое счастье. 🥰",
+            "Не бойся экспериментировать на кухне! 🧁"
+        ];
+        document.getElementById('nicePhrase').innerText = nicePhrases[Math.floor(Math.random() * nicePhrases.length)];
+
+        // --- Рецепты ---
         function saveRecipe(event) {
             event.preventDefault();
             const name = document.getElementById('recipeName').value;
@@ -179,26 +219,144 @@ button:active { transform: scale(0.98); }
             const tech = document.getElementById('recipeTech').value;
 
             const newRecipe = { name, ingredients, steps, tech };
-            
-            // Получаем текущий список или создаем новый
             let recipes = JSON.parse(localStorage.getItem('myRecipes')) || [];
             recipes.push(newRecipe);
             localStorage.setItem('myRecipes', JSON.stringify(recipes));
             
-            alert("Рецепт '" + name + "' сохранен!");
+            alert("Рецепт '" + name + "' сохранен! 🎀");
             document.getElementById('addRecipeForm').reset();
+            renderRecipes();
+            showPage('recipes', document.querySelector('nav button:nth-child(2)'));
         }
-    // --- Милые фразы дня ---
-    const nicePhrases = [
-        "Пусть готовка приносит только радость! ✨",
-        "Ты — лучшая хозяйка на свете! 🌸",
-        "Сегодня отличный день для нового рецепта! 🍰",
-        "Вкусная еда — это маленькое счастье. 🥰",
-        "Не бойся экспериментировать на кухне! 🧁",
-        "Твой дом пахнет уютом и любовью. 💖"
-    ];
 
-    document.querySelector('#home .card p').innerHTML = nicePhrases[Math.floor(Math.random() * nicePhrases.length)];
-</script>            
+        function renderRecipes() {
+            const list = document.getElementById('recipesList');
+            let recipes = JSON.parse(localStorage.getItem('myRecipes')) || [];
+            
+            if (recipes.length === 0) {
+                list.innerHTML = '<p style="color: #888; font-size: 14px;">Пока рецептов нет.</p>';
+                return;
+            }
+
+            list.innerHTML = '';
+            recipes.forEach((r, index) => {
+                const div = document.createElement('div');
+                div.className = 'recipe-item';
+                div.innerHTML = `
+                    <strong>${r.name}</strong>
+                    <div style="font-size: 13px; color: #888; margin: 4px 0;">${r.tech}</div>
+                    <div style="font-size: 14px; margin-bottom: 5px; color: #555;">${r.ingredients}</div>
+                    <details>
+                        <summary>Показать шаги</summary>
+                        <p style="color: #666; font-size: 14px; margin-top: 5px;">${r.steps || 'Шаги не указаны'}</p>
+                    </details>
+                    <button class="secondary" style="width: auto; padding: 6px 12px; font-size: 14px; margin-top: 10px;" onclick="deleteRecipe(${index})">Удалить</button>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function deleteRecipe(index) {
+            if (confirm('Точно удалить этот рецепт?')) {
+                let recipes = JSON.parse(localStorage.getItem('myRecipes')) || [];
+                recipes.splice(index, 1);
+                localStorage.setItem('myRecipes', JSON.stringify(recipes));
+                renderRecipes();
+            }
+        }
+
+        // --- Покупки ---
+        function addShopItem() {
+            const input = document.getElementById('shopInput');
+            if (!input.value.trim()) return;
+            let items = JSON.parse(localStorage.getItem('myShopping')) || [];
+            items.push({ text: input.value.trim(), checked: false });
+            localStorage.setItem('myShopping', JSON.stringify(items));
+            input.value = '';
+            renderShopping();
+        }
+
+        function renderShopping() {
+            const list = document.getElementById('shopList');
+            let items = JSON.parse(localStorage.getItem('myShopping')) || [];
+            if (items.length === 0) { list.innerHTML = ''; return; }
+
+            list.innerHTML = '';
+            items.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.style.display = 'flex';
+                div.style.justifyContent = 'space-between';
+                div.style.alignItems = 'center';
+                div.style.padding = '10px 0';
+                div.style.borderBottom = '1px solid #fce4ec';
+                div.innerHTML = `
+                    <label style="display: flex; align-items: center; gap: 10px; font-size: 16px;">
+                        <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleShopItem(${index})" style="width: 20px; height: 20px; margin: 0;">
+                        <span style="${item.checked ? 'text-decoration: line-through; color: #aaa;' : ''}">${item.text}</span>
+                    </label>
+                    <button onclick="deleteShopItem(${index})" style="width: auto; background: none; color: #ff5252; padding: 5px; box-shadow: none; font-size: 20px; margin: 0;">✕</button>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function toggleShopItem(index) {
+            let items = JSON.parse(localStorage.getItem('myShopping')) || [];
+            items[index].checked = !items[index].checked;
+            localStorage.setItem('myShopping', JSON.stringify(items));
+            renderShopping();
+        }
+
+        function deleteShopItem(index) {
+            let items = JSON.parse(localStorage.getItem('myShopping')) || [];
+            items.splice(index, 1);
+            localStorage.setItem('myShopping', JSON.stringify(items));
+            renderShopping();
+        }
+
+        // --- Кладовая ---
+        function addPantryItem() {
+            const input = document.getElementById('pantryInput');
+            if (!input.value.trim()) return;
+            let items = JSON.parse(localStorage.getItem('myPantry')) || [];
+            items.push({ text: input.value.trim() });
+            localStorage.setItem('myPantry', JSON.stringify(items));
+            input.value = '';
+            renderPantry();
+        }
+
+        function renderPantry() {
+            const list = document.getElementById('pantryList');
+            let items = JSON.parse(localStorage.getItem('myPantry')) || [];
+            if (items.length === 0) { list.innerHTML = ''; return; }
+
+            list.innerHTML = '';
+            items.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.style.display = 'flex';
+                div.style.justifyContent = 'space-between';
+                div.style.alignItems = 'center';
+                div.style.padding = '10px 0';
+                div.style.borderBottom = '1px solid #fce4ec';
+                div.innerHTML = `
+                    <span style="font-size: 16px;">🥫 ${item.text}</span>
+                    <button onclick="deletePantryItem(${index})" style="width: auto; background: none; color: #ff5252; padding: 5px; box-shadow: none; font-size: 20px; margin: 0;">✕</button>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function deletePantryItem(index) {
+            let items = JSON.parse(localStorage.getItem('myPantry')) || [];
+            items.splice(index, 1);
+            localStorage.setItem('myPantry', JSON.stringify(items));
+            renderPantry();
+        }
+
+        // Запуск при загрузке
+        renderRecipes();
+        renderShopping();
+        renderPantry();
+    </script>
 </body>
 </html>
